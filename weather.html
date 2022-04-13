@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="weather-style.css">
+ 
+        <title>Weather Widget</title>
+       
+    </head>
+
+    <body>
+        <div class="weather" id="weatherWidget">
+            <div class="weather-loc" id = 'location' >
+            </div>
+            <div class="weather-humidity" id = 'humidity'></div>
+            <div class="weather-temp" id="current-temp"></div>
+            <img class="weather-tomorrow" src=null alt='tomorrow image' id='tomorrow-img' />
+            <img class="weather-dayaftertomorrow" src=null. alt='tomorrow image' id = 'dayafter-img'/>
+        </div>
+        <br>
+        <button type="button" id='refresh'>Refresh weather!</button>
+
+
+        <script>
+            var weather;
+            function fetchWeather(){
+                //fetching from weather_json.php
+                 fetch('https://classes.engineering.wustl.edu/cse330/content/weather_json.php').then(function(response){
+                     return response.json();
+                 })
+                 .then(function(stuff){
+                     console.log(JSON.stringify(stuff));
+
+                     //adding the fetched information to the html of the page
+                     document.getElementById('location').innerHTML = "<strong>" + JSON.stringify(stuff['location']['city']).replace(/\"/g, "") + "</strong>     ";
+
+                     document.getElementById('location').innerHTML += JSON.stringify(stuff['location']['state']).replace(/\"/g, "");
+                     document.getElementById('humidity').innerHTML =   JSON.stringify(stuff['atmosphere']['humidity']);
+                     document.getElementById('current-temp').innerHTML =   JSON.stringify(stuff.current.temp).replace(/\"/g, "");
+
+                     document.getElementById('tomorrow-img').src = "http://us.yimg.com/i/us/nws/weather/gr/"+JSON.stringify(stuff.tomorrow.code).replace(/\"/g, "") +"ds.png";
+                     document.getElementById('dayafter-img').src = "http://us.yimg.com/i/us/nws/weather/gr/"+JSON.stringify(stuff.dayafter.code).replace(/\"/g, "") +"ds.png";
+
+
+                 }).catch(function(error){
+                     console.log("found an error: " + error);
+                 })
+                 
+            }
+            //fetch weather when page loads
+            document.addEventListener("DOMContentLoaded", fetchWeather, false);
+
+            //fetches refreshed weather when button is clicked
+            document.getElementById('refresh').addEventListener('click', fetchWeather);
+            
+        </script>
+      
+    
+    </body>
+</html>

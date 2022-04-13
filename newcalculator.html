@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Module 5: Calculator</title>
+       
+    </head>
+
+    <body>
+        <!-- form for user's input -->
+       <form name='input' >
+           1st Number: <input type="number" id = 'first' step="0.00001" name="firstnumber"> <br>
+           operator: <br>
+            <input type="radio" id="addition" name="operator" value="+"  >
+            <label for="addition">+</label>
+            <input type="radio" id="subtraction" name="operator" value="-" > 
+            <label for="subtraction">-</label>
+            <input type="radio" id="multiplication" name="operator" value="*"  >
+            <label for="multiplication">*</label>
+            <input type="radio" id="divison" name="operator" value="/">
+            <label for="divison">/</label>
+            <br>
+           2nd Number: <input type="number" id = 'second' step="0.00001" name="secondnumber">
+            <br>
+       </form>
+
+       <div id='answer'>Insert values above </div>
+    <script>
+       
+        var selectedOperator;
+
+        document.getElementById('first').addEventListener('keyup', function() {
+            updateEntry('first');
+            }
+        );
+        document.getElementById('second').addEventListener('keyup', function() {
+            updateEntry('second');
+            }
+        );
+
+        function updateEntry(id){
+            input_one = parseFloat(document.getElementById('first').value);
+            input_two = parseFloat(document.getElementById('second').value);
+            console.log("updated number fields");
+            calculate();
+        }
+        
+        document.getElementById('subtraction').addEventListener('change', function(){updateOperator("-");});
+        document.getElementById('addition').addEventListener('change', function(){updateOperator("+");});
+        document.getElementById('divison').addEventListener('change', function(){updateOperator("/");});
+        document.getElementById('multiplication').addEventListener('change', function(){updateOperator("*");});
+        
+        function updateOperator(operator){
+            selectedOperator = operator;
+            console.log("updated operator: " + operator);
+            calculate()
+        };
+        
+        function calculate(){
+    
+        if(input_one != null && input_two != null && selectedOperator!=null ){
+            if (selectedOperator == "+"){
+                answer = input_one + input_two;
+            } else if(selectedOperator == "-"){
+                answer = input_one - input_two;
+            }else if(selectedOperator == "*"){
+                answer = input_one * input_two;
+            } else if(selectedOperator == "/"){
+                answer = input_one / input_two;
+            }
+            console.log("operator: " + selectedOperator)
+            if(!isNaN(answer)){
+                console.log("input 1: " + input_one);
+                console.log("input 2: " + input_two);
+                document.getElementById('answer').innerHTML = "= " + answer;
+
+            } else{
+                document.getElementById('answer').innerHTML = "Fill in all inputs above.";
+
+            }
+
+         }
+
+        }
+
+
+    </script>
+    
+       
+
+    </body>
+</html>
